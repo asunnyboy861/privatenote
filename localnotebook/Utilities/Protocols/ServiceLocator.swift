@@ -79,4 +79,8 @@ extension ServiceLocator {
     var versionHistoryService: VersionHistoryServiceProtocol {
         resolve(VersionHistoryServiceProtocol.self) ?? VersionHistoryService()
     }
+    
+    var markdownParser: MarkdownParserProtocol {
+        resolve(MarkdownParserProtocol.self) ?? MarkdownParser()
+    }
 }

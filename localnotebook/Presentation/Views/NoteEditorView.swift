@@ -4,6 +4,7 @@ struct NoteEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: NoteEditorViewModel
     @FocusState private var isTitleFocused: Bool
+    @State private var showExtendedFormats = false
     
     init(note: Note?) {
         _viewModel = StateObject(wrappedValue: NoteEditorViewModel(note: note))
@@ -12,13 +13,30 @@ struct NoteEditorView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
+                if viewModel.isMarkdownEnabled {
+                    MarkdownToolbar(
+                        viewModel: viewModel,
+                        showExtendedFormats: $showExtendedFormats
+                    )
+                }
+                
                 titleField
                 
                 Divider()
                 
-                contentField
+                if viewModel.isMarkdownEnabled && viewModel.isPreviewMode {
+                    MarkdownPreviewViewSimple(html: viewModel.renderedHTML)
+                } else {
+                    contentField
+                }
                 
                 tagsSection
+                
+                EditorStatusBar(
+                    wordCount: viewModel.wordCount,
+                    characterCount: viewModel.characterCount,
+                    isMarkdownEnabled: viewModel.isMarkdownEnabled
+                )
             }
             .navigationTitle(viewModel.title.isEmpty ? "New Note" : "")
             #if os(iOS)
@@ -36,11 +54,24 @@ struct NoteEditorView: View {
                     Button("Save") {
                         Task {
                             await viewModel.save()
+                            HapticFeedback.shared.playSuccess()
                             dismiss()
                         }
                     }
                     .disabled(!viewModel.hasChanges)
                     .fontWeight(.semibold)
+                }
+                
+                if viewModel.isMarkdownEnabled {
+                    ToolbarItem(placement: .automatic) {
+                        Button {
+                            viewModel.togglePreview()
+                            HapticFeedback.shared.playSelection()
+                        } label: {
+                            Image(systemName: viewModel.isPreviewMode ? "eye.slash" : "eye")
+                        }
+                        .help(viewModel.isPreviewMode ? "Edit" : "Preview")
+                    }
                 }
                 #else
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -50,14 +81,26 @@ struct NoteEditorView: View {
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
-                        Task {
-                            await viewModel.save()
-                            dismiss()
+                    HStack(spacing: 12) {
+                        if viewModel.isMarkdownEnabled {
+                            Button {
+                                viewModel.togglePreview()
+                                HapticFeedback.shared.playSelection()
+                            } label: {
+                                Image(systemName: viewModel.isPreviewMode ? "eye.slash" : "eye")
+                            }
                         }
+                        
+                        Button("Save") {
+                            Task {
+                                await viewModel.save()
+                                HapticFeedback.shared.playSuccess()
+                                dismiss()
+                            }
+                        }
+                        .disabled(!viewModel.hasChanges)
+                        .fontWeight(.semibold)
                     }
-                    .disabled(!viewModel.hasChanges)
-                    .fontWeight(.semibold)
                 }
                 #endif
             }
@@ -98,11 +141,13 @@ struct NoteEditorView: View {
                     ForEach(viewModel.tags, id: \.self) { tag in
                         TagView(tag: tag) {
                             viewModel.removeTag(tag)
+                            HapticFeedback.shared.playClick()
                         }
                     }
                     
                     AddTagView { newTag in
                         viewModel.addTag(newTag)
+                        HapticFeedback.shared.playClick()
                     }
                 }
                 .padding(.horizontal)
