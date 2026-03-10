@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	
+	<!-- iOS/iPadOS Background Modes -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+		<string>processing</string>
+	</array>
+	
+	<!-- Face ID Usage Description (iOS) -->
+	<key>NSFaceIDUsageDescription</key>
+	<string>使用 Face ID 快速解锁您的加密笔记</string>
+	
+	<!-- iCloud Usage Description (iOS) -->
+	<key>NSiCloudUsageDescription</key>
+	<string>iCloud 用于安全地同步您的加密笔记</string>
+	
+	<!-- Camera Usage Description (iOS - Optional) -->
+	<key>NSCameraUsageDescription</key>
+	<string>PrivaNote 需要访问相机来拍摄照片并添加到加密笔记中</string>
+	
+	<!-- Microphone Usage Description (iOS - Optional) -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>PrivaNote 需要访问麦克风来录制语音并添加到加密笔记中</string>
+	
+	<!-- Photo Library Usage Description (iOS - Optional) -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>PrivaNote 需要访问相册来选择照片并添加到加密笔记中</string>
+	
+	<!-- macOS Specific -->
+	<key>LSMinimumSystemVersion</key>
+	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2026 PrivaNote. All rights reserved.</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model type="com.apple.CoreData" version="1.0">
+    <entity name="NoteEntity" representedClassName="NoteEntity">
+        <attribute name="id" attributeType="String" optional="NO"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="content" attributeType="String"/>
+        <attribute name="encryptedContent" attributeType="BinaryData" optional="YES"/>
+        <attribute name="tags" attributeType="Transformable"/>
+        <attribute name="isPinned" attributeType="Boolean32"/>
+        <attribute name="isFavorite" attributeType="Boolean32"/>
+        <attribute name="createdAt" attributeType="Date"/>
+        <attribute name="modifiedAt" attributeType="Date"/>
+    </entity>
+</model>
