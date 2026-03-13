@@ -32,6 +32,9 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6A5857CD2F5FA491009A2CE7 /* localnotebook */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6A5857CF2F5FA491009A2CE7 /* PBXFileSystemSynchronizedBuildFileExceptionSet */,
+			);
 			path = localnotebook;
 			sourceTree = "<group>";
 		};
@@ -46,6 +49,16 @@
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6A5857CF2F5FA491009A2CE7 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 6A5857CA2F5FA491009A2CE7 /* localnotebook */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		6A5857C82F5FA491009A2CE7 /* Frameworks */ = {
@@ -396,7 +409,7 @@
 				DEVELOPMENT_TEAM = JP4TN5PTS3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = localnotebook/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -436,7 +449,7 @@
 				DEVELOPMENT_TEAM = JP4TN5PTS3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = localnotebook/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;

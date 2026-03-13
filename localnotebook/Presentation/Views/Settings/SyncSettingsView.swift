@@ -70,7 +70,7 @@ struct SyncSettingsView: View {
                 
                 Button {
                     Task {
-                        try? await syncEngine.syncNow()
+                        try? await syncEngine.syncAll()
                         viewModel.loadSettings()
                         HapticFeedback.shared.playSuccess()
                     }

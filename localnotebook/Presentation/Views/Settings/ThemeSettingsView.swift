@@ -8,32 +8,21 @@ struct ThemeSettingsView: View {
         _selectedTheme = State(initialValue: ThemeManager.shared.currentTheme)
     }
     
+    private let themes: [AppTheme] = AppTheme.allCases
+    
     var body: some View {
         Form {
             Section("Theme") {
-                ForEach(AppTheme.allCases) { theme in
+                ForEach(themes, id: \.self) { theme in
                     Button {
                         selectedTheme = theme
-                        themeManager.setTheme(theme)
+                        themeManager.currentTheme = theme
                         HapticFeedback.shared.playSelection()
                     } label: {
-                        HStack {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(theme.displayName)
-                                    .foregroundColor(.primary)
-                                
-                                Text(theme.description)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                            
-                            Spacer()
-                            
-                            if themeManager.currentTheme == theme {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.accentColor)
-                            }
-                        }
+                        ThemeRowContent(
+                            theme: theme,
+                            isSelected: themeManager.currentTheme == theme
+                        )
                     }
                     .buttonStyle(.plain)
                 }
@@ -50,6 +39,43 @@ struct ThemeSettingsView: View {
             }
         }
         .navigationTitle("Theme")
+    }
+}
+
+struct ThemeRowContent: View {
+    let theme: AppTheme
+    let isSelected: Bool
+    
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(theme.displayName)
+                    .foregroundColor(.primary)
+                
+                Text(themeDescription)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            
+            Spacer()
+            
+            if isSelected {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.accentColor)
+            }
+        }
+    }
+    
+    private var themeDescription: String {
+        switch theme {
+        case .system: return "Follows system appearance"
+        case .light: return "Light mode"
+        case .dark: return "Dark mode"
+        case .midnight: return "Deep blue dark theme"
+        case .ocean: return "Ocean-inspired blue theme"
+        case .forest: return "Nature-inspired green theme"
+        case .sunset: return "Warm orange theme"
+        }
     }
 }
 
@@ -73,15 +99,9 @@ struct ThemePreviewCard: View {
             }
             
             HStack(spacing: 8) {
-                ForEach(["Tag1", "Tag2", "Tag3"], id: \.self) { tag in
-                    Text("#\(tag)")
-                        .font(.caption)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(theme.primaryColor.opacity(0.2))
-                        .foregroundColor(theme.primaryColor)
-                        .cornerRadius(12)
-                }
+                PreviewTag(theme: theme, text: "Tag1")
+                PreviewTag(theme: theme, text: "Tag2")
+                PreviewTag(theme: theme, text: "Tag3")
             }
         }
         .padding()
@@ -90,17 +110,18 @@ struct ThemePreviewCard: View {
     }
 }
 
-extension AppTheme {
-    var description: String {
-        switch self {
-        case .system: return "Follows system appearance"
-        case .light: return "Light mode"
-        case .dark: return "Dark mode"
-        case .midnight: return "Deep blue dark theme"
-        case .ocean: return "Ocean-inspired blue theme"
-        case .forest: return "Nature-inspired green theme"
-        case .sunset: return "Warm orange theme"
-        }
+struct PreviewTag: View {
+    let theme: AppTheme
+    let text: String
+    
+    var body: some View {
+        Text("#\(text)")
+            .font(.caption)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(theme.primaryColor.opacity(0.2))
+            .foregroundColor(theme.primaryColor)
+            .cornerRadius(12)
     }
 }
 

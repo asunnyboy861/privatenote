@@ -62,19 +62,18 @@ class SettingsViewModel: ObservableObject {
     }
     
     func clearAllData() async throws {
-        try noteRepository.deleteAll()
+        let notes = try noteRepository.getAll()
+        for note in notes {
+            try noteRepository.delete(id: note.id)
+        }
         loadSettings()
         HapticFeedback.shared.playSuccess()
     }
     
-    func exportAllNotes() async -> URL? {
-        do {
-            let notes = try noteRepository.getAll()
-            let exportService = ExportService()
-            return try await exportService.exportNotes(notes, format: .json)
-        } catch {
-            return nil
-        }
+    func exportAllNotes(to url: URL) async throws {
+        let notes = try noteRepository.getAll()
+        let exportService = ExportService()
+        try await exportService.exportNotes(notes, format: .markdown, to: url)
     }
     
     private func calculateStorageUsage() {
